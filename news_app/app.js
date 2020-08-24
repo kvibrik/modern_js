@@ -103,6 +103,7 @@ function loadNews() {
 
 // function on get response from server
 function onGetResponse(err, res) {
+  removeLoader();
   if (err) {
     showAlert(err, 'error-msg');
     return;
@@ -216,4 +217,12 @@ function showLoader(el) {
     </div>
   `,
   );
+}
+
+// remove loader
+function removeLoader() {
+  const loader = document.querySelector('.progress');
+  if (loader) {
+    loader.remove();
+  }
 }
