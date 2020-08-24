@@ -73,4 +73,49 @@ const newsService = (function () {
 //  init selects
 document.addEventListener('DOMContentLoaded', function () {
   M.AutoInit();
+  loadNews();
 });
+
+// load news function
+function loadNews() {
+  newsService.topHeadlines('ru', onGetResponse);
+}
+
+// function on get response from server
+function onGetResponse(err, res) {
+  console.log(res);
+  rendernews(res.articles);
+}
+
+// function render news
+function rendernews(news) {
+  const newsContainer = document.querySelector('.news-container .row');
+  let fragment = '';
+
+  news.forEach((newsItem) => {
+    const el = newsTemplate(newsItem);
+    fragment += el;
+  });
+
+  newsContainer.insertAdjacentHTML('afterbegin', fragment);
+}
+
+// news item template function
+function newsTemplate({ urlToImage, title, url, description }) {
+  return `
+    <div class="col-s-12">
+      <div class="card">
+        <div class="card-image">
+          <img src="${urlToImage}" alt="card-image"/>
+          <span class="card-title">${title || ''}</span>
+        </div>
+        <div class="card-content">
+          <p>${description || ''}</p>
+        </div>
+        <div class="card-action">
+          <a href="${url}">Read more...</a>
+        </div>
+      </div>
+    </div>
+  `;
+}
