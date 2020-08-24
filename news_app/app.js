@@ -56,7 +56,21 @@ function customHttp() {
 // Init http module
 const http = customHttp();
 
+const newsService = (function () {
+  const apiKey = 'e3fe62dde564474aa472386c4880e2c0';
+  const apiUrl = 'https://news-api-v2.herokuapp.com';
+
+  return {
+    topHeadlines(country = 'ru', cb) {
+      http.get(`${apiUrl}/top-headlines?country=${country}&apiKey=${apiKey}`, cb);
+    },
+    everything(query, cb) {
+      http.get(`${apiUrl}/everything?q=${query}&apiKey=${apiKey}`, cb);
+    },
+  };
+})();
+
 //  init selects
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
   M.AutoInit();
 });
