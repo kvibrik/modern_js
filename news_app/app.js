@@ -88,6 +88,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // load news function
 function loadNews() {
+  const newsContainer = document.querySelector('.news-container .container');
+  showLoader(newsContainer);
+
   const country = countrySelect.value;
   const searchText = searchInput.value;
 
@@ -114,11 +117,10 @@ function onGetResponse(err, res) {
 
 // function render news
 function rendernews(news) {
-  const newsContainer = document.querySelector('.news-container .row');
+  const newsContainer = document.querySelector('.news-container .grid-container');
   if (newsContainer.children.length) {
     clearContainer(newsContainer);
   }
-  showLoader(newsContainer);
   let fragment = '';
 
   news.forEach((newsItem) => {
@@ -169,7 +171,7 @@ function showAlert(msg, type = 'success') {
 // function to show loader for rendering news
 function showLoader(el) {
   el.insertAdjacentHTML(
-    'beforebegin',
+    'afterbegin',
     `
     <div class="preloader-wrapper big active progress row">
       <div class="spinner-layer spinner-blue">
