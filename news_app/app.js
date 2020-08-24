@@ -70,6 +70,16 @@ const newsService = (function () {
   };
 })();
 
+// Elements
+const form = document.forms['newsControls'];
+const countrySelect = form.elements['country'];
+const searchInput = form.elements['search'];
+
+form.addEventListener('submit', (e) => {
+  e.preventDefault();
+  loadNews();
+});
+
 //  init selects
 document.addEventListener('DOMContentLoaded', function () {
   M.AutoInit();
@@ -78,18 +88,36 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // load news function
 function loadNews() {
-  newsService.topHeadlines('ru', onGetResponse);
+  const country = countrySelect.value;
+  const searchText = searchInput.value;
+
+  if (!searchText) {
+    newsService.topHeadlines(country, onGetResponse);
+  } else {
+    newsService.everything(searchText, onGetResponse);
+  }
 }
 
 // function on get response from server
 function onGetResponse(err, res) {
-  console.log(res);
+  if (err) {
+    showAlert(err, 'error-msg');
+    return;
+  }
+
+  if (!res.articles.length) {
+    // show empty message
+    return;
+  }
   rendernews(res.articles);
 }
 
 // function render news
 function rendernews(news) {
   const newsContainer = document.querySelector('.news-container .row');
+  if (newsContainer.children.length) {
+    clearContainer(newsContainer);
+  }
   let fragment = '';
 
   news.forEach((newsItem) => {
@@ -100,13 +128,25 @@ function rendernews(news) {
   newsContainer.insertAdjacentHTML('afterbegin', fragment);
 }
 
+// clear container for news
+function clearContainer(container) {
+  let child = container.lastElementChild;
+
+  while (child) {
+    container.removeChild(child);
+    child = container.lastElementChild;
+  }
+}
+
 // news item template function
 function newsTemplate({ urlToImage, title, url, description }) {
   return `
     <div class="col-s-12">
       <div class="card">
         <div class="card-image">
-          <img src="${urlToImage}" alt="card-image"/>
+          <img src="${
+            urlToImage || 'https://media.guap.ru/691/zaglushka-lektsia.jpg?s=lg'
+          }" alt="card-image"/>
           <span class="card-title">${title || ''}</span>
         </div>
         <div class="card-content">
@@ -118,4 +158,9 @@ function newsTemplate({ urlToImage, title, url, description }) {
       </div>
     </div>
   `;
+}
+
+// show popup messages function
+function showAlert(msg, type = 'success') {
+  M.toast({ html: msg, classes: type });
 }
