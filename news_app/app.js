@@ -118,6 +118,7 @@ function rendernews(news) {
   if (newsContainer.children.length) {
     clearContainer(newsContainer);
   }
+  showLoader(newsContainer);
   let fragment = '';
 
   news.forEach((newsItem) => {
@@ -163,4 +164,54 @@ function newsTemplate({ urlToImage, title, url, description }) {
 // show popup messages function
 function showAlert(msg, type = 'success') {
   M.toast({ html: msg, classes: type });
+}
+
+// function to show loader for rendering news
+function showLoader(el) {
+  el.insertAdjacentHTML(
+    'beforebegin',
+    `
+    <div class="preloader-wrapper big active progress row">
+      <div class="spinner-layer spinner-blue">
+        <div class="circle-clipper left">
+          <div class="circle"></div>
+        </div><div class="gap-patch">
+          <div class="circle"></div>
+        </div><div class="circle-clipper right">
+          <div class="circle"></div>
+        </div>
+      </div>
+
+      <div class="spinner-layer spinner-red">
+        <div class="circle-clipper left">
+          <div class="circle"></div>
+        </div><div class="gap-patch">
+          <div class="circle"></div>
+        </div><div class="circle-clipper right">
+          <div class="circle"></div>
+        </div>
+      </div>
+
+      <div class="spinner-layer spinner-yellow">
+        <div class="circle-clipper left">
+          <div class="circle"></div>
+        </div><div class="gap-patch">
+          <div class="circle"></div>
+        </div><div class="circle-clipper right">
+          <div class="circle"></div>
+        </div>
+      </div>
+
+      <div class="spinner-layer spinner-green">
+        <div class="circle-clipper left">
+          <div class="circle"></div>
+        </div><div class="gap-patch">
+          <div class="circle"></div>
+        </div><div class="circle-clipper right">
+          <div class="circle"></div>
+        </div>
+      </div>
+    </div>
+  `,
+  );
 }
