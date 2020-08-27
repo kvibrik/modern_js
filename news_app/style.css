@@ -12,3 +12,11 @@
   grid-auto-flow: dense;
   grid-gap: 20px;
 }
+
+.card-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-height: 320px;
+  overflow: hidden;
+}
