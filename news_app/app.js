@@ -92,8 +92,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // load news function
 function loadNews() {
-  const newsContainer = document.querySelector('.news-container .container');
-  showLoader(newsContainer);
+  const loaderContainer = document.querySelector('.news-container .container');
+  const newsContainer = document.querySelector('.news-container .row');
+  clearContainer(newsContainer);
+  showLoader(loaderContainer);
 
   const country = countrySelect.value;
   const category = categorySelect.value;
