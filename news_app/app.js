@@ -61,8 +61,11 @@ const newsService = (function () {
   const apiUrl = 'https://news-api-v2.herokuapp.com';
 
   return {
-    topHeadlines(country = 'ru', cb) {
-      http.get(`${apiUrl}/top-headlines?country=${country}&apiKey=${apiKey}`, cb);
+    topHeadlines(country = 'ru', category = '', cb) {
+      http.get(
+        `${apiUrl}/top-headlines?country=${country}&category=${category}&apiKey=${apiKey}`,
+        cb,
+      );
     },
     everything(query, cb) {
       http.get(`${apiUrl}/everything?q=${query}&apiKey=${apiKey}`, cb);
@@ -73,6 +76,7 @@ const newsService = (function () {
 // Elements
 const form = document.forms['newsControls'];
 const countrySelect = form.elements['country'];
+const categorySelect = form.elements['category'];
 const searchInput = form.elements['search'];
 
 form.addEventListener('submit', (e) => {
@@ -92,10 +96,11 @@ function loadNews() {
   showLoader(newsContainer);
 
   const country = countrySelect.value;
+  const category = categorySelect.value;
   const searchText = searchInput.value;
 
   if (!searchText) {
-    newsService.topHeadlines(country, onGetResponse);
+    newsService.topHeadlines(country, category, onGetResponse);
   } else {
     newsService.everything(searchText, onGetResponse);
   }
@@ -110,7 +115,9 @@ function onGetResponse(err, res) {
   }
 
   if (!res.articles.length) {
-    // show empty message
+    const newsContainer = document.querySelector('.news-container .grid-container');
+    clearContainer(newsContainer);
+    showAlert('News is not found. Please, search again', 'error-msg');
     return;
   }
   rendernews(res.articles);
