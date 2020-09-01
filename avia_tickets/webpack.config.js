@@ -20,7 +20,7 @@ module.exports = {
     historyApiFallback: true,
     noInfo: false,
     stats: 'minimal',
-    hot: true,
+    hot: false,
   },
   module: {
     // Для того, чтобы трансформировать файл, используются специальные утилиты - загрузчики (loaders).
