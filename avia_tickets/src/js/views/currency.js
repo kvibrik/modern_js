@@ -4,7 +4,6 @@ class CurrencyUI {
   }
 
   get currencyValue() {
-    console.log(this.currency.value);
     return this.currency.value;
   }
 }

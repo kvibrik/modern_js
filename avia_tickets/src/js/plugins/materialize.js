@@ -3,12 +3,18 @@ import 'materialize-css/dist/js/materialize.min.js';
 
 const sidenav = document.querySelector('.sidenav');
 const selects = document.querySelectorAll('select');
-const autocomlete = document.querySelectorAll('.autocomplete');
+const autocomplete = document.querySelectorAll('.autocomplete');
 const datepicker = document.querySelectorAll('.datepicker');
 
 M.Sidenav.init(sidenav);
 M.FormSelect.init(selects);
-M.Autocomplete.init(autocomlete);
+M.Autocomplete.init(autocomplete, {
+  data: {
+    Apple: null,
+    Microsoft: null,
+    Google: 'https://placehold.it/250x250',
+  },
+});
 M.Datepicker.init(datepicker, {
   showClearBtn: true,
   format: 'yyyy-mm',
