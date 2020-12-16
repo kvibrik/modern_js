@@ -23,23 +23,32 @@ class Locations {
     this.cities = this.serializeCities(cities);
     this.shortCities = this.createShortCities(this.cities);
     this.airlines = this.serializeAirlines(airlines);
+    console.log(this.cities);
 
     return response;
   }
 
   getCityCodeByKey(key) {
-    return this.cities[key].code;
+    const city = Object.values(this.cities).find(
+      item => item.full_name === key,
+    );
+
+    return city.code;
   }
 
   getAirlineByCode(code) {
     return this.airlines[code] ? this.airlines[code].name : '';
   }
 
+  getAirlineLogoByCode(code) {
+    return this.airlines[code] ? this.airlines[code].logo : '';
+  }
+
   // формирование данных для автокомплита:
   // { 'City name, Country name': null }
   createShortCities(cities) {
-    return Object.entries(cities).reduce((acc, [key]) => {
-      acc[key] = null;
+    return Object.entries(cities).reduce((acc, [, city]) => {
+      acc[city.full_name] = null;
       return acc;
     }, {});
   }
@@ -70,11 +79,13 @@ class Locations {
   serializeCities(cities) {
     return cities.reduce((acc, city) => {
       const country_name = this.countries[city.country_code].name;
-      const key = `${city.name}, ${country_name}`;
+      city.name = city.name || city.name_translations.en;
+      const full_name = `${city.name}, ${country_name}`;
 
-      acc[key] = {
+      acc[city.code] = {
         ...city,
         country_name,
+        full_name,
       };
       return acc;
     }, {});
