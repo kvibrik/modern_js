@@ -3,3 +3,8 @@ const API_ENV = {
 };
 
 export default API_ENV;
+
+// Login and Password существующего пользователя
+
+// Login: denis.m.pcspace@gmail.com
+// Password: dmgame12345
