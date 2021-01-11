@@ -47,6 +47,8 @@ export function notify({
   const container = getContainer();
 
   container.insertAdjacentHTML('beforeend', template);
+
+  setTimeout(() => closeNotify(index), timeout);
 }
 
 export function closeNotify(index) {
