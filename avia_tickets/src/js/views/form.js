@@ -33,7 +33,7 @@ class FormUI {
   }
 
   get returnDateValue() {
-    return this.returnDatepicker.toString() || null;
+    return this.returnDatepicker.toString() || this.departDatepicker.toString();
   }
 
   setAutocompleteData(data) {
