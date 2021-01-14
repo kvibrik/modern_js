@@ -28,7 +28,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const return_date = formUI.returnDateValue;
     const currency = currencyUI.currencyValue;
 
-    console.log(origin, destination, depart_date, return_date, currency);
     await locations.fetchTickets({
       origin,
       destination,
