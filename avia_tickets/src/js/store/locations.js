@@ -23,7 +23,6 @@ class Locations {
     this.cities = this.serializeCities(cities);
     this.shortCities = this.createShortCities(this.cities);
     this.airlines = this.serializeAirlines(airlines);
-    console.log(this.cities);
 
     return response;
   }
@@ -36,7 +35,11 @@ class Locations {
     return city.code;
   }
 
-  getAirlineByCode(code) {
+  getCityNameByCode(code) {
+    return this.cities[code].name;
+  }
+
+  getAirlineNameByCode(code) {
     return this.airlines[code] ? this.airlines[code].name : '';
   }
 
@@ -93,8 +96,19 @@ class Locations {
 
   async fetchTickets(params) {
     const response = await this.api.prices(params);
-    this.lastSearch = response.data;
-    // серилизовать поиск так что бы внури были название города и страны
+    this.lastSearch = this.serializeTickets(response.data);
+  }
+
+  serializeTickets(tickets) {
+    return Object.values(tickets).map(ticket => {
+      return {
+        ...ticket,
+        origin_name: this.getCityNameByCode(ticket.origin),
+        destination_name: this.getCityNameByCode(ticket.destination),
+        airline_logo: this.getAirlineLogoByCode(ticket.airline),
+        airline_name: this.getAirlineNameByCode(ticket.airline),
+      };
+    });
   }
 }
 
