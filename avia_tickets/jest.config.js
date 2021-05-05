@@ -2,7 +2,7 @@ module.exports = {
   clearMocks: true,
   collectCoverageFrom: ['src/**/*.js'],
   coverageDirectory: 'coverage',
-  moduleFileExtentions: ['js'],
+  moduleFileExtensions: ['js'],
   testMatch: ['**/__test__/**/*.js?(x)', '**/?(*.)+(spec|test).js?(x)'],
   testPathIgnorePatterns: ['\\\\node_modules\\\\'],
   transformIgnorePatterns: ['<rootDir>/node_modules/'],
