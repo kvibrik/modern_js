@@ -1,7 +1,7 @@
 import api from '../services/apiService';
 import { formatDate } from '../helpers/date';
 
-class Locations {
+export class Locations {
   constructor(api, helpers) {
     this.api = api;
     this.countries = null;
@@ -61,6 +61,8 @@ class Locations {
   // изменение данных по странам к формату:
   // { 'Country code': {...} }
   serializeCountries(countries) {
+    if (!Array.isArray(countries) || !countries.length) return {};
+
     return countries.reduce((acc, country) => {
       acc[country.code] = country;
 
@@ -71,10 +73,11 @@ class Locations {
   // изменение данных по компаниям
   serializeAirlines(airlines) {
     return airlines.reduce((acc, item) => {
-      item.logo = `https://pics.avs.io/200/200/${item.code}.png`;
-      item.name = item.name || item.name_translations.en;
+      const itemCopy = { ...item };
+      itemCopy.logo = `https://pics.avs.io/200/200/${itemCopy.code}.png`;
+      itemCopy.name = itemCopy.name || itemCopy.name_translations.en;
 
-      acc[item.code] = item;
+      acc[itemCopy.code] = itemCopy;
       return acc;
     }, {});
   }
@@ -82,6 +85,8 @@ class Locations {
   // изменение данных по городам к формату:
   // { 'City name, Country name': {...} }
   serializeCities(cities) {
+    if (!Array.isArray(cities) || !cities.length) return {};
+
     return cities.reduce((acc, city) => {
       const country_name = this.countries[city.country_code].name;
       city.name = city.name || city.name_translations.en;
