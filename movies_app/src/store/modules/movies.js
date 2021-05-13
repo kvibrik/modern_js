@@ -1,9 +1,22 @@
+import axios from '@/plugins/axios';
+
 const moviesStore = {
-  manespaced: true,
+  namespaced: true,
   state: {},
   getters: {},
-  actions: {},
   mutations: {},
+  actions: {
+    async fetchMovies(context) {
+      console.log(context);
+      // tt0111161
+      const response = await axios.get('/', {
+        params: {
+          i: 'tt0111161',
+        },
+      });
+      console.log(response);
+    },
+  },
 };
 
 export default moviesStore;
