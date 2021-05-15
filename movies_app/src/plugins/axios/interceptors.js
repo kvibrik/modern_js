@@ -1,5 +1,4 @@
 function setParams(config) {
-  console.log(config);
   const params = config.params || {};
   const newConfig = Object.assign(config);
   newConfig.params = Object.assign(params, {
@@ -10,6 +9,14 @@ function setParams(config) {
   return newConfig;
 }
 
-export default function (axios) {
+function returnData(res) {
+  return res.data;
+}
+
+export default function(axios) {
+  // request interceptors
   axios.interceptors.request.use(setParams);
+
+  // response unterceptors
+  axios.interceptors.response.use(returnData);
 }
