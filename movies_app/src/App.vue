@@ -51,7 +51,6 @@ export default {
       this.changeCurrentPage(Number(page));
     },
     onChangePoster(poster) {
-      console.log(poster);
       this.posterBg = poster;
     },
     onPageChanged(page) {
