@@ -3,10 +3,12 @@
     <BNavbar type="dark" variant="dark" class="navbar">
       <BContainer>
         <BNavbarBrand href="#">MovieDB</BNavbarBrand>
-        <BNavForm>
+        <BNavForm @submit.prevent="onSubmit">
           <BFormInput
             class="mr-sm-2 search-input"
             placeholder="Search"
+            v-model="searchValue"
+            debounce="500"
           ></BFormInput>
         </BNavForm>
       </BContainer>
@@ -15,8 +17,35 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+
 export default {
   name: 'Header',
+  data: () => ({
+    searchValue: '',
+  }),
+  watch: {
+    searchValue: 'onSearchValueChanged',
+  },
+  methods: {
+    ...mapActions('movies', [
+      'searchMovies',
+      'fetchMovies',
+      'toggleSearchState',
+    ]),
+    onSearchValueChanged(val) {
+      if (val) {
+        this.toggleSearchState(true);
+        this.searchMovies(val);
+        return;
+      }
+      this.toggleSearchState(false);
+      this.fetchMovies();
+    },
+    onSubmit(event) {
+      this.onSearchValueChanged(event.target[0].value);
+    },
+  },
 };
 </script>
 
