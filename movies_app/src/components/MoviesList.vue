@@ -19,8 +19,17 @@
           </div>
         </template>
       </BRow>
-      <BModal :id="movieInfoModalID" size="xl" hide-footer hide-header>
-        <p>Some text</p>
+      <BModal
+        body-class="movie-modal-body"
+        :id="movieInfoModalID"
+        size="xl"
+        hide-footer
+        hide-header
+      >
+        <MovieInfoModalContent
+          :movie="selectedMovie"
+          @closeModal="onCloseModal"
+        />
       </BModal>
     </BContainer>
   </div>
@@ -29,11 +38,13 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 import MovieItem from './MovieItem.vue';
+import MovieInfoModalContent from './MovieInfoModalContent.vue';
 
 export default {
   name: 'MoviesList',
   components: {
     MovieItem,
+    MovieInfoModalContent,
   },
   props: {
     list: {
@@ -81,6 +92,10 @@ export default {
       this.selectedMovieID = id;
       this.$bvModal.show(this.movieInfoModalID);
     },
+    onCloseModal() {
+      this.selectedMovieID = null;
+      this.$bvModal.hide(this.movieInfoModalID);
+    },
   },
 };
 </script>
@@ -90,5 +105,11 @@ export default {
   font-size: 50px;
   margin-bottom: 30px;
   color: #fff;
+}
+</style>
+
+<style>
+.movie-modal-body {
+  padding: 0 !important;
 }
 </style>
